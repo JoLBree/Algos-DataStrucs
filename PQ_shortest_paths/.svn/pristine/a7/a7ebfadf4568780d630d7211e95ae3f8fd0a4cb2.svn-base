@@ -1,0 +1,110 @@
+import java.util.ArrayList;
+
+
+//
+// SHORTESTPATHS.JAVA
+// Compute shortest paths in a graph.
+//
+// Your constructor should compute the actual shortest paths and
+// maintain all the information needed to reconstruct them.  The
+// returnPath() function should use this information to return the
+// appropriate path of edge ID's from the start to the given end.
+//
+// Note that the start and end ID's should be mapped to vertices using
+// the graph's get() function.
+//
+// You can ignore the input and startTime arguments to the constructor
+// unless you are doing the extra credit.
+//
+class ShortestPaths {
+
+	int[] dists;
+	Edge[] fromEdge;
+	Handle[] handles;
+	PriorityQueue<Vertex> pq;
+	int start; // start Id
+	String[] troubleshoot = {"ABQ", "ATL", "BNA", "BOS", "DCA", "DEN", "DFW", "DTW", "HOU","JFK","LAX","MIA","MSP","MSY","ORD","PHL","PHX","PVD","RDU","SEA","SFO","STL","TPA"};
+	
+	//
+	// constructor
+	//
+	//   @SuppressWarnings("unchecked")
+	public ShortestPaths(Multigraph G, int startId, 
+			Input input, int startTime) 
+	{
+		start = startId;
+		pq = new PriorityQueue<Vertex>();
+		dists = new int[G.nVertices()];
+		fromEdge = new Edge[G.nVertices()];
+		handles = new Handle[G.nVertices()];
+		for (int i = 0; i < G.nVertices(); i++){
+			if (i == startId){
+				dists[i] = 0;
+				handles[i] = pq.insert(0, G.get(i));
+//				System.out.println("id "+G.get(i).id()+" is "+troubleshoot[i]);
+			} else{
+				dists[i] = Integer.MAX_VALUE;
+				handles[i] = pq.insert(Integer.MAX_VALUE, G.get(i));
+//				System.out.println("id "+G.get(i).id()+" is "+troubleshoot[i]);
+			}
+		}
+		while (!pq.isEmpty()){
+			Vertex u = pq.extractMin();
+			if (dists[u.id()] == Integer.MAX_VALUE) return;
+			Vertex.EdgeIterator t = u.adj();
+			while(t.hasNext()){
+				Edge e = t.next();
+				if (u.id() == e.from().id()){
+					Vertex v = e.to();
+					Handle h = handles[v.id()];
+					if(pq.decreaseKey(h, dists[v.id()]+e.weight())){
+						dists[v.id()] = dists[u.id()]+e.weight();
+						fromEdge[v.id()] = e;
+						System.out.println(troubleshoot[v.id()] + " came from " + troubleshoot[u.id()]+" in dist "+dists[v.id()]);
+					}
+				}
+			}    		
+		}
+
+	}
+
+	//
+	// returnPath()
+	// Return an array containing a list of edge ID's forming
+	// a shortest path from the start vertex to the specified
+	// end vertex.
+	//
+	
+	// THIS SHOULD BE EDGE IDS
+	
+	public int [] returnPath(int endId) 
+	{ 
+		System.out.println("startID is "+troubleshoot[start]+", end ID is "+troubleshoot[endId]);
+		ArrayList<Integer> bkwrds = new ArrayList<Integer>();
+		int i = endId;
+		while (i != start){
+			//bkwrds.add(i);
+			bkwrds.add(fromEdge[i].id());
+			i = fromEdge[i].from().id();
+		}
+		//bkwrds.add();
+		int[] path = new int[bkwrds.size()];
+		i = 0;
+		for (int j = bkwrds.size()-1; j >= 0; j--){
+			path[i] = bkwrds.get(j);
+			i++;
+		}
+//		String a = "";
+//		for (int k = 0 ; k < path.length; k++){
+//			a = a+troubleshoot[path[k]]+" ";
+//		}
+		//System.out.println(a+"// distance is "+dists[endId]);  // print suggests correct start airport, SEA. main keeps printing ABQ  
+		return path;
+		
+		//problems:
+		//main is not printing what I am actually getting from my code
+		//can actly go from SEA to BOS in a faster way than direct -> figure this out
+		
+		
+	}
+}

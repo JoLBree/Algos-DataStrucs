@@ -1,0 +1,39 @@
+*** RUNNING PRE-TURNIN TESTS ON 2015-10-30 11:02:29 CDT ***
+* Language is Java
+
+* Running test #1
+* Arguments: skip/fewEvents.txt skip/query0.txt
+ERROR: program terminated abnormally:
+  Exception in thread "main" java.util.ConcurrentModificationException
+	at java.util.LinkedList$ListItr.checkForComodification(LinkedList.java:966)
+	at java.util.LinkedList$ListItr.next(LinkedList.java:888)
+	at EventList.findRange(EventList.java:170)
+	at Main.RunTest(Main.java:85)
+	at Main.main(Main.java:58)
+--- FAILED test #1
+
+* Running test #2
+* Arguments: skip/allEvents.txt skip/query1.txt
+ERROR: program terminated abnormally:
+  Exception in thread "main" java.lang.NullPointerException
+	at EventList.insert(EventList.java:73)
+	at Main.main(Main.java:56)
+--- FAILED test #2
+
+* Running test #3
+* Arguments: skip/allEvents.txt skip/query2.txt
+ERROR: program terminated abnormally:
+  Exception in thread "main" java.lang.NullPointerException
+	at EventList.insert(EventList.java:73)
+	at Main.main(Main.java:56)
+--- FAILED test #3
+
+* Running test #4
+* Arguments: skip/allEvents.txt skip/query3.txt
+ERROR: program terminated abnormally:
+  Exception in thread "main" java.lang.NullPointerException
+	at EventList.insert(EventList.java:73)
+	at Main.main(Main.java:56)
+--- FAILED test #4
+
+* Passed 0/4 tests

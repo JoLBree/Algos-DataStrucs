@@ -1,0 +1,36 @@
+import java.util.LinkedList;
+
+//
+// EVENT.JAVA
+//
+// Describes a historical event via two public fields:
+//  year        -- the year of the event (an integer)
+//  description -- the text for the event (a String)
+//
+
+class EventNode {
+
+	public EventNode[] next;
+	public EventNode[] prev;
+	public int height;
+	public LinkedList<Event> events;
+	public int key;
+	
+	public EventNode(int h, Event e) {
+		height = h;
+		next = new EventNode[height];
+		prev = new EventNode[height];
+		events = new LinkedList<Event>();
+		key = e.year;
+		events.add(e);		
+	}
+
+
+	// print method
+	public String toString()
+	{
+		return ""+key;
+	}
+
+
+}

@@ -1,0 +1,90 @@
+public class ClosestPairDC {
+    
+    public final static double INF = java.lang.Double.POSITIVE_INFINITY;
+
+    //
+    // findClosestPair()
+    //
+    // Given a collection of nPoints points, find and ***print***
+    //  * the closest pair of points
+    //  * the distance between them
+    // in the form "DC (x1, y1) (x2, y2) distance"
+    //
+    
+    // INPUTS:
+    //  - points sorted in nondecreasing order by X coordinate
+    //  - points sorted in nondecreasing order by Y coordinate
+    //
+    
+    public static void findClosestPair(XYPoint pointsByX[], 
+				       XYPoint pointsByY[],
+				       boolean print)
+    {
+    	int nPoints = pointsByX.length;
+ 
+    
+		if (print)
+		   System.out.println("DC ");
+    }
+    
+    // is it ok to make a new method? or must I put everything in the //your code here area?
+    // return two points, in an array
+    
+    public XYPoint[] closestPair(XYPoint pointsByX[], XYPoint pointsByY[], int nPoints){
+    	
+    	double minDist = Double.POSITIVE_INFINITY;
+    	XYPoint pointOne = new XYPoint(0,0);
+    	XYPoint pointTwo = new XYPoint(0,0);
+    	
+    	if (nPoints == 1) {
+    		return new XYPoint[0]; //NEED TO FIGURE WHAT TO RETURN
+    	}
+    	else if (nPoints == 2) {
+    		pointOne = pointsByX[0];
+    		pointTwo = pointsByX[1];
+    		return new XYPoint[] {pointOne, pointTwo}; 
+    	}
+    	else {
+    		int mid = (int) Math.ceil(nPoints/2.0) - 1;
+    		XYPoint xL[] = new XYPoint[mid+1];
+    		for (int i = 0; i < mid+1; i++){
+    			xL[i] = pointsByX[i];
+    		}
+    		XYPoint xR[] = new XYPoint[mid];
+    		for (int i = mid+1; i < nPoints; i++){
+    			xR[i] = pointsByX[i];
+    		}
+    		XYPoint yL[] = new XYPoint[mid+1];
+    		XYPoint yR[] = new XYPoint[mid];
+    		int yLIndex = 0;
+			int yRIndex = 0;
+    		for (int i = 0; i < nPoints; i++){ // copy ptsByY into arrays yL and yR in y order
+    			if (pointsByY[i].isLeftOf(xR[0])){ // == vs .equals? Do I have to sweep through every point in the halves of the xR and xL arrays?
+    				yL[yLIndex] = pointsByY[i];
+    				yLIndex++;
+    			} else{
+    				yR[yRIndex] = pointsByY[i];
+    				yRIndex++;
+    			}  			
+    		}
+    		XYPoint[] closestPointsL = closestPair(xL, yL, mid+1);
+    		XYPoint[] closestPointsR = closestPair(xR, yR, mid);
+    		//return //combine
+    	}
+    	    	
+    	return new XYPoint[0]; //placeholder
+    }
+    
+    public XYPoint[] combine(){
+    	
+    	
+    	
+    	return new XYPoint[0]; //placeholder
+    }
+    
+	public static void main(String[] args) {
+		System.out.println((int) Math.ceil(5/2.0)-1);
+	}
+
+    
+}

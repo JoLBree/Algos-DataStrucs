@@ -1,0 +1,250 @@
+//
+// STRINGTABLE.JAVA
+// A hash table mapping Strings to their positions in the the pattern sequence
+// You get to fill in the methods for this part.
+//
+public class StringTable {
+	public Record[] table;
+	public int m;
+	public double A1;
+	public double A2;
+
+	//
+	// Create an empty table big enough to hold maxSize records.
+	// All this code is contingent on maxSize being prime.
+	//
+	public StringTable(int maxSize) 
+	{
+		table = new Record[maxSize];
+		m = maxSize;
+		A1 = (Math.sqrt(5)-1)/2;
+		A2 = (Math.sqrt(6)-1)/2;
+	}
+
+
+	//
+	// Insert a Record r into the table.  Return true if
+	// successful, false if the table is full.  You shouldn't ever
+	// get two insertions with the same key value, but you may
+	// simply return false if this happens.
+	//
+	public boolean insert(Record r) 
+	{ 
+		int k = toHashKey(r.key);
+		r.hash = k;
+		int si = (int) Math.floor(m*((k*A1)-Math.floor(k*A1)));
+		if (table[si] == null||table[si].key == "del") {
+			//System.out.println(si);
+			table[si] = r;
+		}
+		else{
+			if (table[si].hash == r.hash){
+				if (table[si].key.equals(r.key)){
+					System.out.println("duplicate key");
+					return false;	
+				}
+			}
+			int h2 = (int) Math.ceil((m-1)*(k*A2-Math.floor(k*A2))); 
+			int checkCounter = 1;
+			while (table[si]!=null&&table[si].key != "del"){
+				//System.out.println(si);
+				if (table[si].hash == r.hash){
+					if (table[si].key.equals(r.key)){
+						System.out.println("duplicate key");
+						return false;	
+					}
+				}
+				if (checkCounter >= m){
+					System.out.println("table full");
+					return false;
+				}
+				else {
+					si = (si+h2)%m;
+					checkCounter++;
+				}
+			}
+			table[si] = r;
+		}
+		return true; 
+	}
+
+	//
+	// Find a record with a key matching the input.  Return the
+	// record if it exists, or null if no matching record is found.
+	//
+	public Record find(String key) 
+	{
+		int k = toHashKey(key);
+		int si = (int) Math.floor(m*((k*A1)-Math.floor(k*A1)));
+		if (table[si] == null) {
+			System.out.println("find not found");
+			return null; 
+		}
+		else{
+			if (table[si].hash == k){
+				if (table[si].key.equals(key)){
+					System.out.println("returning "+key);
+					return table[si];
+				}
+			}
+			int h2 = (int) Math.ceil((m-1)*(k*A2-Math.floor(k*A2))); // explanation as above
+			int checkCounter = 1;
+			while (table[si]!=null){
+				if (table[si].hash == k){
+					if (table[si].key.equals(key)){
+						System.out.println("returning "+key);
+						return table[si];
+					}
+				}
+
+				if (checkCounter >= m){
+					System.out.println("find not found");
+					return null;
+				}
+				else {
+					si = (si+h2)%m;
+					checkCounter++;
+				}
+			}
+			System.out.println("find not found");
+			return null;
+		}
+	}
+
+	//
+	// Delete a Record r from the table.  Note that you'll have to
+	// find the record first unless you keep some extra information
+	// in the Record structure.
+	//
+	public void remove(Record r) 
+	{
+		int k = r.hash;
+		int si = (int) Math.floor(m*((k*A1)-Math.floor(k*A1)));
+		Record del = new Record("del");
+		if (table[si] == null) {
+			System.out.println("remove not found");
+			return; 
+		}
+		else{
+			if (table[si].hash == k){
+				if (table[si].key.equals(r.key)){
+					System.out.println("deleting "+r.key);
+					table[si] = del;
+					return;
+				}
+			}
+
+			int h2 = (int) Math.ceil((m-1)*(k*A2-Math.floor(k*A2))); // explanation as above
+			int checkCounter = 1;
+			while (table[si]!=null){
+				if (table[si].hash == k){
+					if (table[si].key.equals(r.key)){
+						System.out.println("deleting "+r.key);
+						table[si] = del;
+						return;
+					}
+				}
+
+				if (checkCounter >= m){
+					System.out.println("remove not found");
+					return;
+				}
+				else {
+					si = (si+h2)%m;
+					checkCounter++;
+				}
+			}
+			System.out.println("remove not found");
+		}
+	}
+
+	public static void main(String[] args) {
+		StringTable t = new StringTable(40);
+		Record r1 = new Record("AT");
+		Record r2 = new Record("AG");
+		Record r3 = new Record("GC");
+		Record r4 = new Record("GA");
+		Record r5 = new Record("AA");
+		Record r6 = new Record("CC");
+		Record r7 = new Record("CG");
+		Record r8 = new Record("AC");
+		System.out.println(t);
+		t.insert(r1);
+		System.out.println(t);
+		t.insert(r2);
+		System.out.println(t);
+		t.insert(r3);
+		System.out.println(t);
+		t.insert(r4);
+		System.out.println(t);
+		t.insert(r5);
+		System.out.println(t);
+		t.remove(r2);
+		System.out.println(t);
+		t.remove(r6);
+		System.out.println(t);
+		t.insert(r6);
+		System.out.println(t);
+		t.insert(r7);
+		System.out.println(t);
+		t.insert(r5);
+		System.out.println(t);
+		t.insert(r8);
+		System.out.println(t);
+	}
+
+	public String toString(){
+		String s = "[ ";
+		for (int i = 0; i < m; i++){
+			if (table[i]!=null) s = s+table[i].key+" ";
+			else s = s+i+" ";
+		}
+		s = s+"]";
+		return s;
+
+	}
+
+
+	///////////////////////////////////////////////////////////////////////
+
+
+	// Convert a String key into an integer that serves as input to hash
+	// functions.  This mapping is based on the idea of a linear-congruential
+	// pesudorandom number generator, in which successive values r_i are 
+	// generated by computing
+	//    r_i = ( A * r_(i-1) + B ) mod M
+	// A is a large prime number, while B is a small increment thrown in
+	// so that we don't just compute successive powers of A mod M.
+	//
+	// We modify the above generator by perturbing each r_i, adding in
+	// the ith character of the string and its offset, to alter the
+	// pseudorandom sequence.
+	//
+	int toHashKey(String s)
+	{
+		int A = 1952786893;
+		int B = 367257;
+		int v = B;
+
+		for (int j = 0; j < s.length(); j++)
+		{
+			char c = s.charAt(j);
+			v = A * (v + (int) c + j) + B;
+		}
+
+		if (v < 0) v = -v;
+		return v;
+	}
+
+	int baseHash(int hashKey)
+	{
+		// Fill in your own hash function here
+		return 0;
+	}
+
+	int stepHash(int hashKey)
+	{
+		// Fill in your own hash function here
+		return 0;
+	}
+}

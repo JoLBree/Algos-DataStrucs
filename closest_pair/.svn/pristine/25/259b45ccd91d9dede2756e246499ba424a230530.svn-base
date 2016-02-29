@@ -1,0 +1,49 @@
+public class ClosestPairDC {
+    
+    public final static double INF = java.lang.Double.POSITIVE_INFINITY;
+
+    //
+    // findClosestPair()
+    //
+    // Given a collection of nPoints points, find and ***print***
+    //  * the closest pair of points
+    //  * the distance between them
+    // in the form "DC (x1, y1) (x2, y2) distance"
+    //
+    
+    // INPUTS:
+    //  - points sorted in nondecreasing order by X coordinate
+    //  - points sorted in nondecreasing order by Y coordinate
+    //
+    
+    public static void findClosestPair(XYPoint pointsByX[], 
+				       XYPoint pointsByY[],
+				       boolean print)
+    {
+    	int nPoints = pointsByX.length;
+    	double minDist = Double.POSITIVE_INFINITY;
+    	XYPoint pointOne = new XYPoint(0,0);
+    	XYPoint pointTwo = new XYPoint(0,0);
+    	
+    	if (nPoints == 1) {}
+    	else if (nPoints == 2) {
+    		pointOne = pointsByX[0];
+    		pointTwo = pointsByX[1];
+    		minDist = pointsByX[0].dist(pointsByX[1]);
+    	}
+    	else {
+    		int mid = (int) Math.ceil(nPoints/2.0) - 1;
+    		
+    	}
+    	
+    
+	// if (print)
+	//   System.out.println("DC " + ...);
+    }
+    
+	public static void main(String[] args) {
+		System.out.println((int) Math.ceil(5/2.0));
+	}
+
+    
+}

@@ -1,0 +1,50 @@
+//
+// SHORTESTPATHS.CC
+// Compute shortest paths in a graph.
+//
+// Your constructor should compute the actual shortest paths and
+// maintain all the information needed to reconstruct them.  The
+// returnPath() function should use this information to return the
+// appropriate path of edge ID's from the start to the given end.
+//
+// Note that the start and end ID's should be mapped to vertices using
+// the graph's get() function.
+//
+
+#include "ShortestPaths.h"
+#include "PriorityQueue.h"
+
+using namespace std;
+
+//
+// constructor
+//
+ShortestPaths::ShortestPaths(const Multigraph *G, int startId,
+			     const Input *input, int startTime)
+{
+  // your code here
+}
+
+
+//
+// destructor
+//
+ShortestPaths::~ShortestPaths()
+{
+}
+
+//
+// returnPath()
+// Return an array containing a list of edge ID's forming
+// a shortest path from the start vertex to the specified
+// end vertex.
+//
+vector<int> 
+ShortestPaths::returnPath(int endId) const
+{ 
+  vector<int> v;
+  
+  // your code here
+  
+  return v; 
+}

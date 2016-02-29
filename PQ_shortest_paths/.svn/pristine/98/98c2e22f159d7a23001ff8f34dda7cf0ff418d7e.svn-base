@@ -1,0 +1,201 @@
+*** RUNNING PRE-TURNIN TESTS ON 2015-11-22 21:05:00 CST ***
+* Language is Java
+
+* Running test #1
+* Arguments: pqtest 1
++++ PASSED test #1
+
+* Running test #2
+* Arguments: pqtest 2
+ERROR: output differs from expected result:
+@@ -31,14 +31,14 @@
+ @4
+ @15
+ Extractions:
+-@1
+-@2
+-@3
+-@4
+ @5
++@6
+ @7
+ @8
++@9
+ @10
+ @11
++@12
+ @13
++@14
+ @15
+--- FAILED test #2
+
+* Running test #3
+* Arguments: pqtest 3
+ERROR: output differs from expected result:
+@@ -52,53 +52,53 @@
+ @94574751
+ ************************************
+ Extractions:
+-@4123555
+-@9978127
+-@12793123
+-@14265159
+-@14950935
+-@18097175
+-@20032735
+-@20036275
+-@24464295
+-@24628555
+-@27564215
+-@29708947
+-@31960515
+-@32855091
+-@35468291
+-@35539903
+-@42977379
+-@43919003
+-@44293975
+-@45243895
+-@45765035
+-@46080879
+-@47272463
+-@49108107
+-@49789175
+-@50700323
+-@51801531
+-@56447651
+-@57633331
+-@57871195
+-@58946155
+-@62627679
+-@62743979
+-@62766335
+-@63041359
+-@63062803
+-@68160779
+-@69665479
+-@72624555
+-@79197183
+-@81406455
+-@83075295
+-@83527403
+-@86783743
+-@87211743
+-@88928679
+ @94703778
+ @95388250
+-@95511219
+ @99105963
++@99226738
++@102938903
++@103053871
++@110584926
++@111161619
++@116463019
++@123316578
++@124200231
++@124689219
++@136219939
++@145403714
++@146779543
++@150036867
++@155537522
++@159316307
++@159546303
++@163896142
++@168510646
++@171771658
++@173015679
++@173068911
++@177145203
++@177324362
++@183950070
++@184266283
++@184819787
++@186728595
++@186777682
++@188683851
++@189522779
++@190574214
++@192515322
++@193690619
++@194183155
++@195723942
++@196077886
++@197876255
++@197896359
++@200811563
++@207442962
++@210166275
++@210785047
++@214274858
++@216913550
++@217386834
++@217829607
++@220535298
+--- FAILED test #3
+
+* Running test #4
+* Arguments: paths/airports.txt paths/flights.txt paths/query1.txt
+ERROR: output differs from expected result:
+@@ -1,11 +1,7 @@
+ Read 23 airports
+ Read 1354 flights
+ > SEA to {TPA, BOS, DCA, SFO}?
+-SEA
+-@LENGTH = 339 minutes
+-SEA
+-@LENGTH = 370 minutes
+-SEA
+-@LENGTH = 444 minutes
+-SEA
+-@LENGTH = 360 minutes
++No path to TPA
++No path to BOS
++No path to DCA
++No path to SFO
+--- FAILED test #4
+
+* Running test #5
+* Arguments: paths/airports.txt paths/flights.txt paths/query2.txt
+ERROR: output differs from expected result:
+@@ -1,11 +1,7 @@
+ Read 23 airports
+ Read 1354 flights
+ > STL to {TPA, DEN, PVD, ABQ}?
+-STL
+-@LENGTH = 227 minutes
+-STL
+-@LENGTH = 358 minutes
+-STL
+-@LENGTH = 289 minutes
+-STL
+-@LENGTH = 150 minutes
++No path to TPA
++No path to DEN
++No path to PVD
++No path to ABQ
+--- FAILED test #5
+
+* Running test #6
+* Arguments: paths/airports.txt paths/flights.txt paths/query3.txt
+ERROR: output differs from expected result:
+@@ -1,11 +1,7 @@
+ Read 23 airports
+ Read 1354 flights
+ > BNA to {STL, ABQ, JFK, PVD}?
+-BNA
+-@LENGTH = 238 minutes
+-BNA
+-@LENGTH = 225 minutes
+-BNA
+-@LENGTH = 216 minutes
+-BNA
+-@LENGTH = 214 minutes
++No path to STL
++No path to ABQ
++No path to JFK
++No path to PVD
+--- FAILED test #6
+
+* Passed 1/6 tests

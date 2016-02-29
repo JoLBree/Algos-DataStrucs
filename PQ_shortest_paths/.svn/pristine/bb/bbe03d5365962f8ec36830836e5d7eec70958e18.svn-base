@@ -1,0 +1,17 @@
+public class Handle {
+	
+	int key;
+	int index;
+	boolean invalidated;
+	
+	public Handle(int k, int indx){
+		key = k;
+		index = indx;	
+		invalidated = false;
+	}
+	
+	
+	
+	
+	
+}

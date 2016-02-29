@@ -1,0 +1,103 @@
+*** RUNNING PRE-TURNIN TESTS ON 2015-11-23 16:05:52 CST ***
+* Language is Java
+
+* Running test #1
+* Arguments: pqtest 1
++++ PASSED test #1
+
+* Running test #2
+* Arguments: pqtest 2
++++ PASSED test #2
+
+* Running test #3
+* Arguments: pqtest 3
++++ PASSED test #3
+
+* Running test #4
+* Arguments: paths/airports.txt paths/flights.txt paths/query1.txt
+ERROR: output differs from expected result:
+@@ -1,11 +1,15 @@
+ Read 23 airports
+ Read 1354 flights
+ > SEA to {TPA, BOS, DCA, SFO}?
+-SEA
+-@LENGTH = 339 minutes
+-SEA
+-@LENGTH = 370 minutes
+-SEA
+-@LENGTH = 444 minutes
+-SEA
+-@LENGTH = 360 minutes
++ABQ
++ERROR: path is not connected in G
++@LENGTH = 304 minutes
++ABQ
++ERROR: path is not connected in G
++@LENGTH = 304 minutes
++ABQ
++ERROR: path is not connected in G
++@LENGTH = 304 minutes
++ABQ
++ERROR: path is not connected in G
++@LENGTH = 304 minutes
+--- FAILED test #4
+
+* Running test #5
+* Arguments: paths/airports.txt paths/flights.txt paths/query2.txt
+ERROR: output differs from expected result:
+@@ -1,11 +1,15 @@
+ Read 23 airports
+ Read 1354 flights
+ > STL to {TPA, DEN, PVD, ABQ}?
+-STL
+-@LENGTH = 227 minutes
+-STL
+-@LENGTH = 358 minutes
+-STL
+-@LENGTH = 289 minutes
+-STL
+-@LENGTH = 150 minutes
++ABQ
++ERROR: path is not connected in G
++@LENGTH = 140 minutes
++ABQ
++ERROR: path is not connected in G
++@LENGTH = 140 minutes
++ABQ
++ERROR: path is not connected in G
++@LENGTH = 140 minutes
++ABQ
++ERROR: path is not connected in G
++@LENGTH = 140 minutes
+--- FAILED test #5
+
+* Running test #6
+* Arguments: paths/airports.txt paths/flights.txt paths/query3.txt
+ERROR: output differs from expected result:
+@@ -1,11 +1,15 @@
+ Read 23 airports
+ Read 1354 flights
+ > BNA to {STL, ABQ, JFK, PVD}?
+-BNA
+-@LENGTH = 238 minutes
+-BNA
+-@LENGTH = 225 minutes
+-BNA
+-@LENGTH = 216 minutes
+-BNA
+-@LENGTH = 214 minutes
++ABQ
++ERROR: path is not connected in G
++@LENGTH = 91 minutes
++ABQ
++ERROR: path is not connected in G
++@LENGTH = 91 minutes
++ABQ
++ERROR: path is not connected in G
++@LENGTH = 91 minutes
++ABQ
++ERROR: path is not connected in G
++@LENGTH = 91 minutes
+--- FAILED test #6
+
+* Passed 3/6 tests

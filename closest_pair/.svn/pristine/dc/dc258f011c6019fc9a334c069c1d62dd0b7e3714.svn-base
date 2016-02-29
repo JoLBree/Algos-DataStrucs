@@ -1,0 +1,112 @@
+/**
+ * Josephine Lee
+ * leejosephines@wustl.edu
+ * CSE241 lab 1
+ * ClosestPairDC.java
+ */
+
+public class ClosestPairDC {
+
+	public final static double INF = java.lang.Double.POSITIVE_INFINITY;
+	static XYPoint pointOne = new XYPoint();
+	static XYPoint pointTwo = new XYPoint();
+	static double minDist = Double.POSITIVE_INFINITY;
+	
+	//
+	// findClosestPair()
+	//
+	// Given a collection of nPoints points, find and ***print***
+	//  * the closest pair of points
+	//  * the distance between them
+	// in the form "DC (x1, y1) (x2, y2) distance"
+	//
+
+	// INPUTS:
+	//  - points sorted in nondecreasing order by X coordinate
+	//  - points sorted in nondecreasing order by Y coordinate
+	//
+
+	public static void findClosestPair(XYPoint pointsByX[], 
+			XYPoint pointsByY[],
+			boolean print)
+	{
+		int nPoints = pointsByX.length;
+		minDist = closestPair(pointsByX, pointsByY, nPoints);
+		if (print)
+			System.out.println("DC " + pointOne.toString() + " " + pointTwo.toString() + " " + minDist);
+	}
+
+	public static double closestPair(XYPoint pointsByX[], XYPoint pointsByY[], int nPoints){
+		if (nPoints == 1) { 		// base cases
+			return Double.POSITIVE_INFINITY;
+		}
+		else if (nPoints == 2) {
+			if (pointsByX[0].dist(pointsByX[1]) < minDist){
+				pointOne = pointsByX[0];
+				pointTwo = pointsByX[1];
+				minDist = pointsByX[0].dist(pointsByX[1]);
+				return pointOne.dist(pointTwo);
+			}
+		}
+		else {		// split pointsByX into two arrays, xL and xR
+			int mid = (int) Math.ceil(nPoints/2.0) - 1;
+			XYPoint xL[] = new XYPoint[mid+1];
+			for (int i = 0; i < mid+1; i++){
+				xL[i] = pointsByX[i];
+			}
+			XYPoint xR[] = new XYPoint[nPoints-mid-1];
+			int xRIndex = 0;
+			for (int i = mid+1; i < nPoints; i++){
+				xR[xRIndex] = pointsByX[i];
+				xRIndex++;
+			}
+			XYPoint yL[] = new XYPoint[mid+1];
+			XYPoint yR[] = new XYPoint[nPoints-mid-1];
+			int yLIndex = 0;
+			int yRIndex = 0;
+			for (int i = 0; i < nPoints; i++){ // copy ptsByY into arrays yL and yR in y order
+				if (pointsByY[i].isLeftOf(xR[0])){
+					yL[yLIndex] = pointsByY[i];
+					yLIndex++;
+				} else{
+					yR[yRIndex] = pointsByY[i];
+					yRIndex++;
+				}  			
+			}
+			
+			double distL = closestPair(xL, yL, mid+1);
+			double distR = closestPair(xR, yR, nPoints-mid-1);
+			return combine(pointsByY, pointsByX[mid], nPoints, Math.min(distL, distR));
+		}
+		return Double.POSITIVE_INFINITY; // this line should not execute. just in place to make eclipse happy
+	}
+
+	public static double combine(XYPoint[] ptsByY, XYPoint midPoint, int n, double lrDist){
+		int yStripSize = 0;
+		for (int i = 0; i < ptsByY.length; i++){ // determine size of yStrip array
+			if (Math.abs(ptsByY[i].x - midPoint.x) < lrDist){
+				yStripSize++;
+			}
+		}
+		XYPoint[] yStrip = new XYPoint[yStripSize]; // construct yStrip array
+		int yStripIndex = 0;
+		for (int i = 0; i < ptsByY.length; i++){
+			if (Math.abs(ptsByY[i].x - midPoint.x) < lrDist){
+				yStrip[yStripIndex] = ptsByY[i];
+				yStripIndex++;
+			}
+		}
+		
+		for (int i = 0; i < yStrip.length - 1; i++){
+			for (int j = i + 1; (j < yStrip.length) && (yStrip[i].y - yStrip[j].y < lrDist); j++){
+				double dist = yStrip[i].dist(yStrip[j]);
+				if (dist < minDist){
+					minDist = dist;
+					pointOne = yStrip[i];
+					pointTwo = yStrip[j];
+				}
+			}
+		}
+		return minDist;
+	}
+}

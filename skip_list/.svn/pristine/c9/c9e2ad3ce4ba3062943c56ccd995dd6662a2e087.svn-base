@@ -1,0 +1,101 @@
+*** RUNNING PRE-TURNIN TESTS ON 2015-11-01 17:20:52 CST ***
+* Language is Java
+
+* Running test #1
+* Arguments: skip/fewEvents.txt skip/query0.txt
++++ PASSED test #1
+
+* Running test #2
+* Arguments: skip/allEvents.txt skip/query1.txt
+ERROR: output differs from expected result:
+@@ -1,3 +1,10 @@
++Changed z is 1822 (1), x.next is 1833 (1), l is 1, e is 1822 Schubert: music to "Rosamunde," Vienna
++Changed z is 1822 (1), x.next is 1833 (1), l is 0, e is 1822 Schubert: music to "Rosamunde," Vienna
++Changed x is 1822 (1), x.next is 1831 (1), l is 1, e is 1831 Meyerbeer: "Robert le Diable," Paris Opera
++Changed x is 1822 (1), x.next is 1831 (1), l is 0, e is 1831 Meyerbeer: "Robert le Diable," Paris Opera
++Changed x is 1822 (2), x.next is 1824 (1), l is 0, e is 1824 Peter von Cornelius, German composer, born
++Changed x is 1822 (2), x.next is 1823 (1), l is 0, e is 1823 Weber: "Euryanthe," opera, Vienna
++Changed x is 1822 (2), x.next is 1825 (1), l is 1, e is 1825 Beethoven's Symphony No. 9 first performed in England
+ > FINDRANGE 1788 1789
+ 1788 First settlement in Ohio is Marietta, named for Marie Antoinette
+ 1788 Johann Gottfried Muthel, German composer and organist, dies
+--- FAILED test #2
+
+* Running test #3
+* Arguments: skip/allEvents.txt skip/query2.txt
+ERROR: output differs from expected result:
+@@ -1,3 +1,10 @@
++Changed z is 1822 (1), x.next is 1833 (1), l is 1, e is 1822 Schubert: music to "Rosamunde," Vienna
++Changed z is 1822 (1), x.next is 1833 (1), l is 0, e is 1822 Schubert: music to "Rosamunde," Vienna
++Changed x is 1822 (1), x.next is 1831 (1), l is 1, e is 1831 Meyerbeer: "Robert le Diable," Paris Opera
++Changed x is 1822 (1), x.next is 1831 (1), l is 0, e is 1831 Meyerbeer: "Robert le Diable," Paris Opera
++Changed x is 1822 (2), x.next is 1824 (1), l is 0, e is 1824 Peter von Cornelius, German composer, born
++Changed x is 1822 (2), x.next is 1823 (1), l is 0, e is 1823 Weber: "Euryanthe," opera, Vienna
++Changed x is 1822 (2), x.next is 1825 (1), l is 1, e is 1825 Beethoven's Symphony No. 9 first performed in England
+ > FINDMOSTRECENT 1543
+ 1543 Andreas Vesalius publishes De Fabrica Corporis Humani which corrects Greek medical errors and revolutionizes medicine
+ 1543 Ludwig Senfl, German composer, dies
+@@ -19,23 +26,29 @@
+ 1800 William Nicholson and Anthony Carlisle use electrolysis to separate water into hydrogen and oxygen
+ > DELETE 1800
+ > FINDMOSTRECENT 1800
+-1799 Barberina Campanini, Italian dancer, dies
+-1799 Beethoven: Symphony No. 1 in C major
+-1799 French Revolution ends.  Napolean becomes ruler of France
+-1799 George Washington dies in Mount Vernon December 14, from quinsy
+-1799 Haydn: "The Creation," oratorio, Vienna
+-1799 Karl Ditter von Dittersdorf, Austrian composer, dies
+-1799 Karl Gauss proves that every polynomial equation has a solution among the complex numbers
+-1799 Patrick Henry dies June 6
++1791 Carl Czerny, Austrian composer, born
++1791 Cherubini: "Lodoiska," opera, Paris
++1791 Federal capital to be established in swamplands on the Potomac
++1791 First performance of Mozart's "Magic Flute," Vienna
++1791 First ten Amendments are Bill of Rights that go into effect this year
++1791 Giacomo Meyerbeer, German composer, born
++1791 Haydn: "Surprise" Symphony
++1791 John Carroll of Baltimore made first Roman Catholic Bishop in U.S.A.
++1791 NWT Governor Arthur St. Clair soundly defeated by Indians near Ft. Wayne
++1791 The waltz becomes fashionable in England
+ > DELETE 1799
+ > FINDMOSTRECENT 1800
+-1798 Alien and Sedition Acts.  Soon to be repealed
+-1798 Count Rumford has the idea that heat is a form of energy
+-1798 Department of the Navy established after 4 years of having a Navy
+-1798 Henry Cavendish measures the gravitational constant
+-1798 Thomas Malthus discusses human population growth and food production
+-1798 Washington comes out of retirement to be Commander In Chief of Army
+-1798 XYZ Affair, so named after three anonymous French trouble makers
++1791 Carl Czerny, Austrian composer, born
++1791 Cherubini: "Lodoiska," opera, Paris
++1791 Federal capital to be established in swamplands on the Potomac
++1791 First performance of Mozart's "Magic Flute," Vienna
++1791 First ten Amendments are Bill of Rights that go into effect this year
++1791 Giacomo Meyerbeer, German composer, born
++1791 Haydn: "Surprise" Symphony
++1791 John Carroll of Baltimore made first Roman Catholic Bishop in U.S.A.
++1791 NWT Governor Arthur St. Clair soundly defeated by Indians near Ft. Wayne
++1791 The waltz becomes fashionable in England
+ > FINDMOSTRECENT -9000
++-2147483648 head
+ > FINDMOSTRECENT -6999
+ -7000 Pottery is invented
+--- FAILED test #3
+
+* Running test #4
+* Arguments: skip/allEvents.txt skip/query3.txt
+ERROR: output differs from expected result:
+@@ -1,3 +1,10 @@
++Changed z is 1822 (1), x.next is 1833 (1), l is 1, e is 1822 Schubert: music to "Rosamunde," Vienna
++Changed z is 1822 (1), x.next is 1833 (1), l is 0, e is 1822 Schubert: music to "Rosamunde," Vienna
++Changed x is 1822 (1), x.next is 1831 (1), l is 1, e is 1831 Meyerbeer: "Robert le Diable," Paris Opera
++Changed x is 1822 (1), x.next is 1831 (1), l is 0, e is 1831 Meyerbeer: "Robert le Diable," Paris Opera
++Changed x is 1822 (2), x.next is 1824 (1), l is 0, e is 1824 Peter von Cornelius, German composer, born
++Changed x is 1822 (2), x.next is 1823 (1), l is 0, e is 1823 Weber: "Euryanthe," opera, Vienna
++Changed x is 1822 (2), x.next is 1825 (1), l is 1, e is 1825 Beethoven's Symphony No. 9 first performed in England
+ > FINDRANGE -500 -400
+ -500 Greek Choral music reaches its zenith
+ -500 Pindar begins to write his odes
+--- FAILED test #4
+
+* Passed 1/4 tests

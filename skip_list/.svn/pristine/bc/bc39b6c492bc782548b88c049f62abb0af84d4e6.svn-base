@@ -1,0 +1,256 @@
+//
+// EVENTLIST.JAVA
+// Skeleton code for your EventList collection type.
+//
+import java.util.*;
+
+class EventList {
+
+	Random randseq;
+	int maxHeight;
+	EventNode head;
+	EventNode tail;
+	////////////////////////////////////////////////////////////////////
+	// Here's a suitable geometric random number generator for choosing
+	// pillar heights.  We use Java's ability to generate random booleans
+	// to simulate coin flips.
+	////////////////////////////////////////////////////////////////////
+
+	int randomHeight()
+	{
+		int v = 1;
+		while (randseq.nextBoolean()) { v++; }
+		return v;
+	}
+
+	//
+	// Constructor
+	//
+	public EventList()
+	{
+		randseq = new Random(58243); // You may seed the PRNG however you like.
+		head = new EventNode(1000, new Event(Integer.MIN_VALUE, "head"));
+		tail = new EventNode(1000, new Event(Integer.MAX_VALUE, "tail"));
+		for (int i = 0; i < head.height; i++){
+			head.next[i] = tail;
+			tail.next[i] = null;
+		}
+		maxHeight = 0;
+	}
+
+	public EventNode findRecentNode(Event e){	
+		int l = maxHeight;
+		EventNode x = head;
+		EventNode y;
+		while (l >= 0){
+			y = x.next[l];
+			if (y.key == e.year){ // found it
+				return y;
+			}
+			else if (y.key < e.year){
+				x = y;
+			}
+			else l--;
+		}
+		return x;
+	}
+	
+	public EventNode findRecentNode(int year){	
+		int l = maxHeight;
+		EventNode x = head;
+		EventNode y;
+		while (l >= 0){
+			y = x.next[l];
+			if (y.key == year){ // found it
+				return y;
+			}
+			else if (y.key < year){
+				x = y;
+			}
+			else l--;
+		}
+		return x;
+	}
+
+	//
+	// Add an Event to the list.
+	//
+	public void insert(Event e)
+	{
+		EventNode recentNode = findRecentNode(e);
+		if (recentNode.key != e.year){
+			// determine location
+			int t = randomHeight();
+			System.out.println("t is "+t);
+			EventNode z = new EventNode(t, e);
+//			int oldMax = 0;
+//			if (t > maxHeight) {
+//				oldMax = maxHeight;
+//				maxHeight = t;
+//			}
+			if (t > maxHeight) maxHeight = t;
+			int l = maxHeight;
+			EventNode x = head;
+			EventNode y;
+			while (l >= 0){ // somehow at some point node 1822 become unconnected to a next at l=1
+				y = x.next[l]; 
+//				if (x.key==1822 && l==1) System.out.println("x is "+x+", x.next is "+y+", e is "+e);
+//				if (y==null) System.out.println("l is "+l+", x is "+x+", e is "+e);
+//				if (y.key == e.year){
+//					maxHeight = oldMax;
+//					if (z.key==1882)System.out.println("match");
+//					for (Event a : y.events){
+//						if (a.description == e.description) return;
+//					}
+//					y.events.add(e); // do duplicate
+//					return;
+//				}
+				if (y.key < e.year){
+					x = y;
+				}
+				else{ // we've found the place to insert it. link it at this level.
+					if (l < t){	
+						z.next[l] = y; // these are the only two lines where I reassign the next 
+						x.next[l] = z; // of an EventNode to something else
+//						System.out.println(x.key);
+						if (z.key==1822) System.out.println("Changed z is "+z+", x.next is "+y+", l is "+l+", e is "+e);
+						if (x.key==1822) System.out.println("Changed x is "+x+", x.next is "+z+", l is "+l+", e is "+e);
+					}
+					l--;
+				}
+			}
+		}
+		else{ // duplicate
+			recentNode.add(e);
+		}
+		
+	}
+
+
+	//
+	// Remove all Events in the list with the specified year.
+	//
+	public void remove(int year)
+	{
+//		System.out.println("I'm removing");
+		int l = maxHeight;
+		EventNode x = head;
+		EventNode y;
+		while (l >= 0){
+			y = x.next[l];
+			if (y.key == year){ // found it, remove
+				for (int i = 0; i < y.height; i++){
+					x.next[i] = y.next[i];
+				}
+				return;
+			}
+			else if (y.key < year){
+				x = y;
+			}
+			else l--;
+		}
+	}
+
+	//
+	// Find all events with greatest year <= input year
+	//
+	public Event [] findMostRecent(int year)
+	{
+//		System.out.println("I'm finding recent");
+		int l = maxHeight;
+		EventNode x = head;
+		EventNode y;
+		while (l >= 0){
+			y = x.next[l];
+			if (y.key == year){ // found it
+//				Event[] es = (Event[]) y.events.toArray();
+				return y.events.toArray(new Event[y.events.size()]);
+			}
+			if (y.key < year){
+				x = y;
+			}
+			else l--;
+		}
+		return x.events.toArray(new Event[x.events.size()]);
+	}
+
+
+	//
+	// Find all Events within the specific range of years (inclusive).
+	//
+	public Event [] findRange(int first, int last)
+	{
+//		System.out.println("I'm finding range");
+		if (last-first < 0) return null;
+		boolean startFound = false;
+		int l = maxHeight;
+		EventNode start;
+		EventNode x = head;
+		EventNode y;
+		while (l >= 0 && !startFound){
+			y = x.next[l];
+			if (y.key == first){ // found it
+				start = y;
+				startFound = true;
+			}
+			if (y.key < first){
+				x = y;
+			}
+			else l--;
+		}
+		start = x.next[0];
+		LinkedList<Event> list = start.events;
+		x = start.next[0]; // might be a problem here, what is x
+		while (x.key <= last){
+			int size = x.events.size();
+			for (int i = 0; i < size; i++){
+				list.add(x.events.get(i));
+			}
+			x = x.next[0];
+		}
+		return null;
+	}
+
+	public String toString()
+	{
+		String r = "";
+		for (int i = maxHeight-1; i>= 0; i--) {
+			EventNode x = head;
+			while(x != null) {
+				r += x.toString() + " -> ";
+				x = x.next[i];
+			}
+			r += "\n";
+		}
+		return r;
+	}
+
+
+	public static void main(String[] args) {
+		EventList myList = new EventList();
+		myList.insert(new Event(1999, "hi"));
+		myList.insert(new Event(1999, "hii"));
+		myList.insert(new Event(199, "hii"));
+		myList.insert(new Event(19, "hii"));
+		myList.insert(new Event(99, "hii"));
+		myList.insert(new Event(49, "hii"));
+		myList.insert(new Event(59, "hii"));
+		myList.insert(new Event(56, "hii"));
+		myList.insert(new Event(55, "hii"));
+		myList.insert(new Event(53, "hii"));
+		myList.insert(new Event(333, "hii"));
+		myList.insert(new Event(343, "hii"));
+		myList.insert(new Event(353, "hii"));
+		myList.insert(new Event(33, "hii"));
+		myList.insert(new Event(23, "hii"));
+		System.out.println(myList);
+//		Event[] eventArray = myList.findRange(12,2000);
+//		for (Event e : eventArray){
+//			System.out.println(e);
+//		}
+
+	}
+
+
+
+}

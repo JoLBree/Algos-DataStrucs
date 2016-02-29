@@ -1,0 +1,240 @@
+//
+// EVENTLIST.JAVA
+// Skeleton code for your EventList collection type.
+//
+import java.util.*;
+
+class EventList {
+
+	Random randseq;
+	int maxHeight;
+	EventNode head;
+	EventNode tail;
+	////////////////////////////////////////////////////////////////////
+	// Here's a suitable geometric random number generator for choosing
+	// pillar heights.  We use Java's ability to generate random booleans
+	// to simulate coin flips.
+	////////////////////////////////////////////////////////////////////
+
+	int randomHeight()
+	{
+		int v = 1;
+		while (randseq.nextBoolean()) { v++; }
+		return v;
+	}
+
+	//
+	// Constructor
+	//
+	public EventList()
+	{
+		randseq = new Random(58243); // You may seed the PRNG however you like.
+		head = new EventNode(1, new Event(Integer.MIN_VALUE, "head"));
+		tail = new EventNode(1, new Event(Integer.MAX_VALUE, "tail"));
+		for (int i = 0; i < head.height; i++){
+			head.next[i] = tail;
+			tail.next[i] = null;
+		}
+		maxHeight = 0;
+	}
+
+	//
+	// Add an Event to the list.
+	//
+	public void insert(Event e)
+	{
+		EventNode recentNode = findRecentNode(e);
+		if (recentNode.key != e.year){
+			// determine location
+			int t = randomHeight();
+			EventNode z = new EventNode(t, e);
+			
+			if (t > maxHeight) maxHeight = t;
+			if (maxHeight >= head.height){
+				// double head size
+				int newSize = 1;
+				while (maxHeight >= newSize){
+					newSize = newSize*2;
+				}
+				EventNode[] newHeadNext = new EventNode[newSize];
+				for (int i = 0; i < head.height; i++){
+					newHeadNext[i] = head.next[i];
+				}
+				for (int i = head.height; i < newSize; i++){
+					newHeadNext[i] = tail;
+				}
+				head.next = newHeadNext;
+				EventNode[] newtailNext = new EventNode[newSize];
+				for (int i = 0; i < tail.height; i++){
+					newtailNext[i] = tail.next[i];
+				}
+				tail.next = newtailNext;
+			}
+			
+			int l = maxHeight;
+			EventNode x = head;
+			EventNode y;
+			while (l >= 0){
+				y = x.next[l]; 
+				if (y.key < e.year){
+					x = y;
+				}
+				else{ // we've found the place to insert it. link it at this level.
+					if (l < t){	
+						z.next[l] = y; 
+						x.next[l] = z;
+					}
+					l--;
+				}
+			}
+		}
+		else{ // duplicate
+			recentNode.add(e);
+		}
+		
+	}
+
+
+	//
+	// Remove all Events in the list with the specified year.
+	//
+	public void remove(int year)
+	{
+		int l = maxHeight;
+		EventNode x = head;
+		EventNode y;
+		while (l >= 0){
+			y = x.next[l];
+			if (y.key == year){ // found it, remove
+				for (int i = 0; i < y.height; i++){
+					x.next[i] = y.next[i];
+				}
+				return;
+			}
+			else if (y.key < year){
+				x = y;
+			}
+			else l--;
+		}
+	}
+
+	//
+	// Find all events with greatest year <= input year
+	//
+	public Event [] findMostRecent(int year)
+	{
+		int l = maxHeight;
+		EventNode x = head;
+		EventNode y;
+		while (l >= 0){
+			y = x.next[l];
+			if (y.key == year){ // found it
+				return y.events.toArray(new Event[y.events.size()]);
+			}
+			if (y.key < year){
+				x = y;
+			}
+			else l--;
+		}
+		return x.events.toArray(new Event[x.events.size()]);
+	}
+
+	//
+	// Find the node with greatest year <= input year
+	//
+	public EventNode findRecentNode(Event e){	
+		int l = maxHeight;
+		EventNode x = head;
+		EventNode y;
+		while (l >= 0){
+			y = x.next[l];
+			if (y.key == e.year){ // found it
+				return y;
+			}
+			else if (y.key < e.year){
+				x = y;
+			}
+			else l--;
+		}
+		return x;
+	}
+
+	//
+	// Find all Events within the specific range of years (inclusive).
+	//
+	public Event [] findRange(int first, int last)
+	{
+		if (last-first < 0) return null;
+		boolean startFound = false;
+		int l = maxHeight;
+		EventNode start;
+		EventNode x = head;
+		EventNode y;
+		while (l >= 0 && !startFound){
+			y = x.next[l];
+			if (y.key == first){ // found it
+				start = y;
+				startFound = true;
+			}
+			if (y.key < first){
+				x = y;
+			}
+			else l--;
+		}
+		start = x.next[0];
+		LinkedList<Event> list = start.events;
+		x = start.next[0]; // might be a problem here, what is x
+		while (x.key <= last){
+			int size = x.events.size();
+			for (int i = 0; i < size; i++){
+				list.add(x.events.get(i));
+			}
+			x = x.next[0];
+		}
+		return list.toArray(new Event[list.size()]);
+	}
+
+	public String toString()
+	{
+		String r = "";
+		for (int i = head.height-1; i>= 0; i--) {
+			EventNode x = head;
+			while(x != null) {
+				r += x.toString() + " -> ";
+				x = x.next[i];
+			}
+			r += "\n";
+		}
+		return r;
+	}
+
+
+	public static void main(String[] args) {
+		EventList myList = new EventList();
+		myList.insert(new Event(1999, "hi"));
+		myList.insert(new Event(1999, "haii"));
+		myList.insert(new Event(1999, "hbii"));
+		myList.insert(new Event(1999, "hcii"));
+		myList.insert(new Event(1999, "hdii"));
+		myList.insert(new Event(1999, "heii"));
+		myList.insert(new Event(1999, "hfii"));
+		
+		myList.insert(new Event(199, "hii"));
+		System.out.println(myList);
+		Event[] eventArray = myList.findRange(1997, 20000);
+		for (Event e : eventArray){
+			System.out.println(e);
+		}
+
+	}
+
+//	String toString = "";
+//	EventNode x = head;
+//	EventNode y = x.next[0];
+//	while (y.key != 9999){
+//		toString = toString + y.events + ", ";
+//		y = y.next[0];
+//	}
+//	return toString;
+
+}
